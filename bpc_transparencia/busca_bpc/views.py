@@ -24,6 +24,14 @@ def exibir_resultados(request):
                 response_api.raise_for_status()
                 data_api = response_api.json()
 
+                if data_api:
+                    resultado = data_api[0]  # A API retorna uma lista com um único objeto
+                    total_valor = resultado.get('valor')
+                    quantidade_beneficiarios = resultado.get('quantidadeBeneficiados')
+                else:
+                    total_valor = 0
+                    quantidade_beneficiarios = 0
+
                 # Adicionando informações de estado e município para exibir no resultado
                 estado_sigla = form.cleaned_data['estados']
                 # Buscar os municípios do estado selecionado
@@ -45,11 +53,13 @@ def exibir_resultados(request):
                         break
 
                 return render(request, 'busca_bpc/resultados_bpc.html', {
-                    'resultados': data_api,
+                    'resultados': [],  # Não há lista de beneficiários individuais nessa API
                     'codigo_ibge': codigo_ibge,
                     'mes_ano': mes_ano,
                     'estado': estado_nome,
                     'cidade': municipio_nome,
+                    'total_valor': total_valor,
+                    'quantidade_beneficiarios': quantidade_beneficiarios,
                 })
 
             except requests.exceptions.RequestException as e:
@@ -73,4 +83,4 @@ def get_cidades_por_estado(request, sigla_estado):
         return JsonResponse(cidades, safe=False)
     except requests.exceptions.RequestException as e:
         print(f"Erro ao buscar cidades do estado {sigla_estado}: {e}")
-        return JsonResponse([], safe=False) 
+        return JsonResponse([], safe=False)

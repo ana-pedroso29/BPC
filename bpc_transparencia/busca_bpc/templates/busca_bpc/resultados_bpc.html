@@ -9,29 +9,11 @@
     <p>Município: {{ cidade }} (Código IBGE: {{ codigo_ibge }})</p>
     <p>Mês e Ano: {{ mes_ano }}</p>
 
-    {% if resultados %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome do Beneficiário</th>
-                    <th>NIS</th>
-                    <th>Valor</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for resultado in resultados %}
-                    <tr>
-                        <td>{{ resultado.nomeBeneficiario }}</td>
-                        <td>{{ resultado.nis }}</td>
-                        <td>{{ resultado.valor }}</td>
-                    </tr>
-                {% empty %}
-                    <tr><td colspan="3">Nenhum resultado encontrado para os critérios informados.</td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    {% if quantidade_beneficiarios > 0 %}
+        <p>Quantidade Total de Beneficiários: {{ quantidade_beneficiarios }}</p>
+        <p>Valor Total dos Benefícios: {{ total_valor }}</p>
     {% else %}
-        <p>Nenhum resultado encontrado.</p>
+        <p>Nenhum resultado encontrado para os critérios informados.</p>
     {% endif %}
 
     <p><a href="{% url 'formulario_busca' %}">Nova Busca</a></p>
