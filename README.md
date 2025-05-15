@@ -18,8 +18,8 @@ Este é um projeto Django para buscar informações sobre o Benefício de Presta
 
 1.  **Clone o repositório (se aplicável):**
     ```bash
-    git clone [https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content)
-    cd bpc_transparencia
+    git clone git clone [https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content)
+cd bpc_transparencia
     ```
 
 2.  **Crie e ative um ambiente virtual:**
