@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resultados da Busca BPC</title>
+</head>
+<body>
+    <h1>Resultados da Busca BPC</h1>
+    <p>Estado: {{ estado }}</p>
+    <p>Município: {{ cidade }} (Código IBGE: {{ codigo_ibge }})</p>
+    <p>Mês e Ano: {{ mes_ano }}</p>
+
+    {% if resultados %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome do Beneficiário</th>
+                    <th>NIS</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resultado in resultados %}
+                    <tr>
+                        <td>{{ resultado.nomeBeneficiario }}</td>
+                        <td>{{ resultado.nis }}</td>
+                        <td>{{ resultado.valor }}</td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="3">Nenhum resultado encontrado para os critérios informados.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhum resultado encontrado.</p>
+    {% endif %}
+
+    <p><a href="{% url 'formulario_busca' %}">Nova Busca</a></p>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<form method="post" action="{% url 'exibir_resultados' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Buscar</button>
+    {% if erro_form %}
+        <p style="color: red;">{{ erro_form }}</p>
+    {% endif %}
+</form>
+
+<script>
+    const estadoSelect = document.getElementById('id_estados');
+    const cidadeSelect = document.getElementById('id_cidades');
+
+    estadoSelect.addEventListener('change', function() {
+        const siglaEstado = this.value;
+        cidadeSelect.innerHTML = '<option value="">Carregando municípios...</option>';
+        fetch(`/get_cidades/${siglaEstado}/`)
+            .then(response => response.json())
+            .then(data => {
+                cidadeSelect.innerHTML = '<option value="">Selecione o Município</option>';
+                data.forEach(cidade => {
+                    const option = document.createElement('option');
+                    option.value = cidade.codigo_ibge;
+                    option.textContent = cidade.nome;
+                    cidadeSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao carregar cidades:', error);
+                cidadeSelect.innerHTML = '<option value="">Erro ao carregar municípios</option>';
+            });
+    });
+</script>
