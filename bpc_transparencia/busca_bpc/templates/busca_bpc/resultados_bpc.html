@@ -2,20 +2,110 @@
 <html>
 <head>
     <title>Resultados da Busca BPC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .filtros-container {
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .filtros-container p {
+            margin: 0;
+        }
+
+        .resumo {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+       table {
+            width: 50%; /* Ajuste a largura conforme necessário */
+            border-collapse: collapse;
+            margin-top: 1rem;
+            margin-left: auto; /* Centraliza a tabela horizontalmente */
+            margin-right: auto;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: center; /* Centraliza o texto do cabeçalho */
+        }
+
+        td {
+            text-align: center; /* Centraliza o texto das células */
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+      .btn-nova-busca {
+        display: inline-block;
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.2s;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .btn-nova-busca:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    </style>
 </head>
 <body>
     <h1>Resultados da Busca BPC</h1>
-    <p>Estado: {{ estado }}</p>
-    <p>Município: {{ cidade }} (Código IBGE: {{ codigo_ibge }})</p>
-    <p>Mês e Ano: {{ mes_ano }}</p>
+
+    <div class="filtros-container">
+        <p><strong>Estado:</strong> {{ estado }}</p>
+        <p><strong>Município:</strong> {{ cidade }} (Código IBGE: {{ codigo_ibge }})</p>
+        <p><strong>Mês e Ano:</strong> {{ mes_ano }}</p>
+    </div>
 
     {% if quantidade_beneficiarios > 0 %}
-        <p>Quantidade Total de Beneficiários: {{ quantidade_beneficiarios }}</p>
-        <p>Valor Total dos Benefícios: {{ total_valor }}</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Total de Beneficiários</th>
+                    <th>Valor Total dos Benefícios</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ quantidade_beneficiarios }}</td>
+                    <td>{{ total_valor }}</td>
+                </tr>
+            </tbody>
+        </table>
     {% else %}
-        <p>Nenhum resultado encontrado para os critérios informados.</p>
+        <p style="text-align: center;">Nenhum resultado encontrado para os critérios informados.</p>
     {% endif %}
 
-    <p><a href="{% url 'formulario_busca' %}">Nova Busca</a></p>
+    <p style = "text-align: center;">
+      <a href="{% url 'formulario_busca' %}" class= "btn-nova-busca">Nova Busca</a>
+    </p>
 </body>
 </html>

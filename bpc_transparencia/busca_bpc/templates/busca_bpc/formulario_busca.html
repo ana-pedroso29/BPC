@@ -1,33 +1,101 @@
-<form method="post" action="{% url 'exibir_resultados' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Buscar</button>
-    {% if erro_form %}
-        <p style="color: red;">{{ erro_form }}</p>
-    {% endif %}
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buscar Benefícios BPC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-<script>
-    const estadoSelect = document.getElementById('id_estados');
-    const cidadeSelect = document.getElementById('id_cidades');
+        form {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
 
-    estadoSelect.addEventListener('change', function() {
-        const siglaEstado = this.value;
-        cidadeSelect.innerHTML = '<option value="">Carregando municípios...</option>';
-        fetch(`/get_cidades/${siglaEstado}/`)
-            .then(response => response.json())
-            .then(data => {
-                cidadeSelect.innerHTML = '<option value="">Selecione o Município</option>';
-                data.forEach(cidade => {
-                    const option = document.createElement('option');
-                    option.value = cidade.codigo_ibge;
-                    option.textContent = cidade.nome;
-                    cidadeSelect.appendChild(option);
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        p.error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <form method="post" action="{% url 'exibir_resultados' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+
+        <div style="text-align: center; margin-top: 10px;">
+            <button type="submit">Buscar</button>
+        </div>
+
+        {% if erro_form %}
+            <p class="error">{{ erro_form }}</p>
+        {% endif %}
+    </form>
+
+    <script>
+        const estadoSelect = document.getElementById('id_estados');
+        const cidadeSelect = document.getElementById('id_cidades');
+
+        estadoSelect.addEventListener('change', function() {
+            const siglaEstado = this.value;
+            cidadeSelect.innerHTML = '<option value="">Carregando municípios...</option>';
+            fetch(`/get_cidades/${siglaEstado}/`)
+                .then(response => response.json())
+                .then(data => {
+                    cidadeSelect.innerHTML = '<option value="">Selecione o Município</option>';
+                    data.forEach(cidade => {
+                        const option = document.createElement('option');
+                        option.value = cidade.codigo_ibge;
+                        option.textContent = cidade.nome;
+                        cidadeSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar cidades:', error);
+                    cidadeSelect.innerHTML = '<option value="">Erro ao carregar municípios</option>';
                 });
-            })
-            .catch(error => {
-                console.error('Erro ao carregar cidades:', error);
-                cidadeSelect.innerHTML = '<option value="">Erro ao carregar municípios</option>';
-            });
-    });
-</script>
+        });
+    </script>
+
+</body>
+</html>
